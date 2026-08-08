@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1200, initial-scale=1" />
+<title>Bakery Light Converter — 1:1 Thumbnail v3</title>
+<!-- Icons: Google Material Symbols Rounded, browsable at https://fonts.google.com/icons
+     Source assets: google/material-design-icons (Apache-2.0). No custom logo artwork is used. -->
+<style>
+:root{--bg:#05080c;--panel:#0a1017;--panel2:#0c121a;--line:rgba(255,255,255,.09);--muted:#92a0af;--text:#f7f9fb;--blue:#63bbff;--blue2:#2f8cff;--amber:#ffb13a;--amber2:#ff840f;}
+*{box-sizing:border-box}
+html,body{margin:0;width:1200px;height:1200px;overflow:hidden;background:var(--bg)}
+body{font-family:Inter,"Noto Sans JP","Segoe UI",Arial,sans-serif;color:var(--text)}
+.frame{position:relative;width:1200px;height:1200px;overflow:hidden;background:
+radial-gradient(520px 520px at 12% 58%,rgba(39,139,255,.15),transparent 68%),
+radial-gradient(520px 520px at 88% 58%,rgba(255,145,24,.15),transparent 68%),
+linear-gradient(180deg,#04070a 0%,#070b10 55%,#030507 100%)}
+.frame::before{content:"";position:absolute;inset:0;opacity:.24;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,#000,transparent 68%)}
+.frame::after{content:"";position:absolute;inset:-2px;pointer-events:none;box-shadow:inset 0 0 130px rgba(0,0,0,.82)}
+.content{position:relative;z-index:2;height:100%;padding:30px 30px 28px;display:grid;grid-template-rows:296px 1fr 146px;gap:17px}
+.header{display:flex;flex-direction:column;align-items:center;text-align:center;min-height:0;padding-top:6px}
+.eyebrow{height:52px;display:inline-flex;align-items:center;gap:14px;padding:0 22px;border:1px solid rgba(151,172,193,.30);border-radius:14px;background:linear-gradient(180deg,rgba(17,24,33,.94),rgba(7,11,16,.94));box-shadow:0 12px 34px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.06);letter-spacing:.21em;font-size:18px;font-weight:800;color:#c8d2dc}
+.eyebrow .ms{width:29px;height:29px;color:#dce7f2}
+.eyebrow .divider{width:1px;height:24px;background:rgba(255,255,255,.13)}
+h1{margin:0;line-height:1;letter-spacing:-.06em}
+h1 .bakery{display:block;font-size:108px;font-weight:920;color:#fafbfc;text-shadow:0 9px 30px rgba(0,0,0,.52)}
+h1 .converter{display:block;margin-top:6px;padding-bottom:10px;font-size:70px;line-height:1.08;font-weight:900;letter-spacing:-.05em;background:linear-gradient(180deg,#fff7de 0%,#ffc15a 48%,#ff8b14 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 8px 18px rgba(255,137,0,.13))}
+.route{margin-top:14px;height:54px;min-width:508px;padding:0 30px;display:flex;align-items:center;justify-content:center;gap:17px;border-radius:999px;border:1.5px solid transparent;background:linear-gradient(#081019,#081019) padding-box,linear-gradient(90deg,var(--blue),rgba(255,255,255,.25),var(--amber)) border-box;box-shadow:inset 0 0 25px rgba(255,255,255,.025),0 0 28px rgba(0,0,0,.35);font-size:25px;font-weight:850}
+.route .u{color:#d4efff} .route .b{color:#ffc363} .route .ms{width:31px;height:31px;color:#edf2f7}
+.sub{margin-top:12px;font-size:19px;font-weight:650;color:#c4cbd2;white-space:nowrap}
+.mapping{display:grid;grid-template-columns:minmax(0,1fr) 92px minmax(0,1fr);gap:18px;min-height:0}
+.panel{position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(180deg,rgba(14,20,28,.96),rgba(7,11,16,.97));box-shadow:0 24px 70px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.05)}
+.panel.left{border:1.5px solid rgba(81,177,255,.55)} .panel.right{border:1.5px solid rgba(255,154,30,.55)}
+.panel.left::before,.panel.right::before{content:"";position:absolute;inset:0;pointer-events:none}
+.panel.left::before{background:radial-gradient(430px 360px at 74% 51%,rgba(48,147,255,.09),transparent 72%)}
+.panel.right::before{background:radial-gradient(430px 360px at 26% 51%,rgba(255,151,27,.10),transparent 72%)}
+.panel-title{position:relative;z-index:1;height:58px;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:900;letter-spacing:.005em;border-bottom:1px solid rgba(255,255,255,.08)}
+.left .panel-title{color:#cfeaff} .right .panel-title{color:#ffc15a}
+.rows{position:relative;z-index:1;height:calc(100% - 58px);display:grid;grid-template-rows:repeat(4,minmax(0,1fr))}
+.light-row{display:grid;grid-template-columns:78px minmax(0,1fr);align-items:center;gap:18px;padding:14px 21px;border-bottom:1px solid rgba(255,255,255,.075);min-height:0}
+.light-row:last-child{border-bottom:none}
+.iconbox{width:72px;height:72px;border-radius:16px;display:grid;place-items:center}
+.left .iconbox{background:linear-gradient(180deg,rgba(14,30,46,.95),rgba(7,17,28,.97));border:1px solid rgba(99,187,255,.70);box-shadow:inset 0 0 24px rgba(66,160,255,.07),0 0 22px rgba(38,124,229,.06);color:#c7eaff}
+.right .iconbox{background:linear-gradient(180deg,rgba(43,27,10,.90),rgba(19,13,7,.98));border:1px solid rgba(255,170,40,.72);box-shadow:inset 0 0 24px rgba(255,151,24,.075),0 0 22px rgba(255,137,18,.06);color:#ffc158}
+.iconbox .ms{width:49px;height:49px}
+.name{min-width:0}
+.name strong{display:block;font-size:23px;line-height:1.05;font-weight:850;letter-spacing:-.02em}
+.right .name strong{color:#ffd277}
+.name .component{display:inline-flex;margin-top:7px;padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.085);background:rgba(255,255,255,.028);font-size:12.5px;line-height:1;color:#9aa8b7;font-weight:700;white-space:nowrap}
+.right .name .component{color:#c9a06b;border-color:rgba(255,180,70,.10);background:rgba(255,143,20,.035)}
+.name small{display:block;margin-top:8px;color:#758494;font-size:11.5px;line-height:1.25;font-weight:620;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.right .name small{color:#9e7b50}
+.arrows{display:grid;grid-template-rows:58px repeat(4,minmax(0,1fr));min-height:0}
+.arrow-head{display:block}
+.arrow-cell{display:flex;align-items:center;justify-content:center}
+.arrow-chip{width:76px;height:54px;display:grid;place-items:center;border-radius:999px;border:1px solid rgba(255,255,255,.11);background:linear-gradient(90deg,rgba(58,157,255,.14),rgba(255,255,255,.045) 48%,rgba(255,151,27,.16));box-shadow:0 0 28px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.04);overflow:hidden}
+.arrow-chip .ms{width:39px;height:39px;color:#f7d7a5;filter:drop-shadow(0 0 9px rgba(255,157,37,.25))}
+.footer{border:1px solid rgba(255,255,255,.115);border-radius:20px;background:linear-gradient(180deg,rgba(13,18,24,.94),rgba(7,10,14,.95));display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden;box-shadow:0 16px 45px rgba(0,0,0,.27)}
+.feature{position:relative;display:grid;grid-template-columns:62px minmax(0,1fr);align-items:center;gap:17px;padding:18px 24px}
+.feature+.feature::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:1px;background:rgba(255,255,255,.12)}
+.ficon{width:60px;height:60px;display:grid;place-items:center;border-radius:15px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07)}
+.ficon .ms{width:47px;height:47px} .feature.blue .ficon{color:#65b9ff} .feature.amber .ficon{color:#ffbe5c}
+.ftxt strong{display:block;font-size:22px;line-height:1.05;font-weight:850;letter-spacing:-.02em}
+.ftxt span{display:block;margin-top:8px;color:#97a4b2;font-size:12.5px;line-height:1.32;font-weight:620}
+
+.ms{display:block;fill:currentColor;flex:none}
+</style>
+</head>
+<body>
+<div class="frame">
+ <div class="content">
+  <header class="header">
+      <h1><span class="bakery">Bakery</span><span class="converter">Light Converter</span></h1>
+   <div class="route"><span class="u">Unity Light</span><span id="routeArrow"></span><span class="b">Bakery Light</span></div>
+   <div class="sub">Unity の標準ライトを Bakery GPU Lightmapper 用コンポーネントへ一括変換</div>
+  </header>
+  <main class="mapping">
+   <section class="panel left"><div class="panel-title">Unity Lights</div><div class="rows" id="leftRows"></div></section>
+   <div class="arrows"><div class="arrow-head"></div><div class="arrow-cell"><div class="arrow-chip" data-arrow></div></div><div class="arrow-cell"><div class="arrow-chip" data-arrow></div></div><div class="arrow-cell"><div class="arrow-chip" data-arrow></div></div><div class="arrow-cell"><div class="arrow-chip" data-arrow></div></div></div>
+   <section class="panel right"><div class="panel-title">Bakery Components</div><div class="rows" id="rightRows"></div></section>
+  </main>
+  <footer class="footer" id="features"></footer>
+ </div>
+</div>
+<script>
+const ICON_PATHS={"lightbulb": "M480-80q-34 0-57.5-23.5T399-161h162q0 34-23.5 57.5T480-80ZM348-223q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h264q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H348Zm-25-121q-66-43-104.5-107.5T180-597q0-122 89-211t211-89q122 0 211 89t89 211q0 81-38 145.5T637-344H323Zm22-60h270.67Q664-436 692-487.13q28-51.13 28-109.87 0-99-70.5-169.5T480-837q-99 0-169.5 70.5T240-597q0 58.74 28 109.87T345-404Zm135 0Z", "flashlight_on": "M330-140v-383l-80-117q-5.38-7.73-7.69-16.23Q240-664.73 240-674v-146q0-24.75 17.63-42.38Q275.25-880 300-880h360q24.75 0 42.38 17.62Q720-844.75 720-820v146q0 9.27-2.31 17.77T710-640l-80 117v383q0 24.75-17.62 42.37Q594.75-80 570-80H390q-24.75 0-42.37-17.63Q330-115.25 330-140Zm150.18-186Q459-326 444-340.82q-15-14.83-15-36Q429-398 443.82-413q14.83-15 36-15Q501-428 516-413.18q15 14.83 15 36Q531-356 516.18-341q-14.83 15-36 15ZM300-764h360v-56H300v56Zm360 60H300v35l90 131v398h180v-398l90-131v-35ZM480-480Z", "light_mode": "M479.76-340Q538-340 579-380.76q41-40.77 41-99Q620-538 579.24-579q-40.77-41-99-41Q422-620 381-579.24q-41 40.77-41 99Q340-422 380.76-381q40.77 41 99 41Zm.24 60q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM70-450q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32Q57.25-510 70-510h100q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H70Zm720 0q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h100q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H790ZM479.82-760q-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-100q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v100q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63Zm0 720Q467-40 458.5-48.63 450-57.25 450-70v-100q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v100q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63ZM240-678l-57-56q-9-9-8.63-21.6.37-12.61 8.53-21.5 8.89-8.9 21.5-8.9 12.6 0 21.6 9l56 57q8 9 8 21t-8 20.5q-8 8.5-20.5 8.5t-21.5-8Zm494 495-56-57q-8-9-8-21.38 0-12.37 8.5-20.62 8.5-9 20.5-9t21 9l57 56q9 9 8.63 21.6-.37 12.61-8.53 21.5-8.89 8.9-21.5 8.9-12.6 0-21.6-9Zm-56-495q-9-9-9-21t9-21l56-57q9-9 21.6-8.63 12.61.37 21.5 8.53 8.9 8.89 8.9 21.5 0 12.6-9 21.6l-57 56q-8 8-20.36 8-12.37 0-21.64-8ZM182.9-182.9q-8.9-8.89-8.9-21.5 0-12.6 9-21.6l57-56q8.8-9 20.9-9 12.1 0 20.71 9 9.39 9 9.39 21t-9 21l-56 57q-9 9-21.6 8.63-12.61-.37-21.5-8.53ZM480-480Z", "crop_square": "M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v600q0 24-18 42t-42 18H180Zm0-60h600v-600H180v600Zm0 0v-600 600Z", "sync_alt": "m194-281 98 98q9 9 9 21t-9 21q-9 9-21 9t-21-9L101-290q-5-5-7-10t-2-11q0-6 2-11t7-10l150-150q9-9 21-9t21 9q9 9 9 21t-9 21l-99 99h616q13 0 21.5 8.5T840-311q0 13-8.5 21.5T810-281H194Zm572-337H150q-13 0-21.5-8.5T120-648q0-13 8.5-21.5T150-678h616l-99-99q-9-9-9-21t9-21q9-9 21-9t21 9l150 150q5 5 7 10t2 11q0 6-2 11t-7 10L710-478q-9 9-21 9t-21-9q-9-9-9-21t9-21l98-98Z", "arrow_forward": "M686-450H190q-13 0-21.5-8.5T160-480q0-13 8.5-21.5T190-510h496L459-737q-9-9-9-21t9-21q9-9 21-9t21 9l278 278q5 5 7 10t2 11q0 6-2 11t-7 10L501-181q-9 9-21 9t-21-9q-9-9-9-21t9-21l227-227Z", "cached": "M481-158q-131 0-225.5-94.5T161-478v-45l-61 61q-8 8-19 8t-19-8q-8-8-8-19.5t8-19.5l108-109q9-9 21-9t21 9l109 109q8 8 8 19t-8 19q-8 8-19.5 8t-19.5-8l-61-60v45q0 107 76.5 183.5T481-218q20 0 39-2.5t36-7.5q12-3 23.5 1.5T596-211q5 11 0 22t-17 15q-24 8-48.5 12t-49.5 4Zm-1-580q-20 0-39 2.5t-36 7.5q-12 3-24-1.5T364-745q-5-11 0-22.5t16-15.5q25-8 49.5-11.5T480-798q131 0 225.5 94.5T800-478v43l61-61q8-8 19-8t19 8q8 8 8 19.5t-8 19.5L791-348q-9 9-21 9t-21-9L641-456q-8-8-8-20t8-20q8-8 20-8t20 8l59 59v-41q0-107-76.5-183.5T480-738Z", "tune": "M456.82-120q-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-165q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v53h323q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H487v52q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63ZM150-202q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h187q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H150Zm186.82-166q-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-52H150q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h157v-54q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v166q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63ZM457-450q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h353q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H457Zm165.82-165q-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-165q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v52h157q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H653v53q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63ZM150-698q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h353q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H150Z", "undo": "M289-200q-13 0-21.5-8.5T259-230q0-13 8.5-21.5T289-260h280q70 0 120.5-46.5T740-422q0-69-50.5-115.5T569-584H274l93 93q9 9 9 21t-9 21q-9 9-21 9t-21-9L181-593q-5-5-7-10t-2-11q0-6 2-11t7-10l144-144q9-9 21-9t21 9q9 9 9 21t-9 21l-93 93h294q95 0 163.5 64T800-422q0 94-68.5 158T568-200H289Z"};
+const EMBEDDED_CSV="\"kind\",\"order\",\"source_name\",\"source_component\",\"target_name\",\"target_component\",\"detail\",\"icon_name\",\"icon_library\",\"accent\"\n\"meta\",\"0\",\"Bakery Light Converter\",\"\",\"\",\"\",\"Unity Editor tool / Unity Light → Bakery GPU Lightmapper\",\"sync_alt\",\"Google Material Symbols Rounded\",\"\"\n\"mapping\",\"1\",\"Point Light\",\"Unity Light (Point)\",\"Bakery Point Light\",\"BakeryPointLight\",\"Color • Intensity • Range • Cubemap Cookie\",\"lightbulb\",\"Google Material Symbols Rounded\",\"blue→amber\"\n\"mapping\",\"2\",\"Spot Light\",\"Unity Light (Spot)\",\"Bakery Spot Light\",\"BakeryPointLight\",\"Point params • Spot Angle • Inner Angle • Cookie\",\"flashlight_on\",\"Google Material Symbols Rounded\",\"blue→amber\"\n\"mapping\",\"3\",\"Directional Light\",\"Unity Light (Directional)\",\"Bakery Directional Light\",\"BakeryDirectLight\",\"Color • Intensity • sunAngularDiameter (HDRP)\",\"light_mode\",\"Google Material Symbols Rounded\",\"blue→amber\"\n\"mapping\",\"4\",\"Area Light\",\"Unity Light (Area)\",\"Bakery Area Light\",\"BakeryLightMesh\",\"Color • Intensity • Width/Height via Transform scale\",\"crop_square\",\"Google Material Symbols Rounded\",\"blue→amber\"\n\"feature\",\"1\",\"Bulk Convert\",\"\",\"\",\"\",\"Selected lights / All scene lights\",\"cached\",\"Google Material Symbols Rounded\",\"blue\"\n\"feature\",\"2\",\"Auto Mapping\",\"\",\"\",\"\",\"Major light parameters copied automatically\",\"tune\",\"Google Material Symbols Rounded\",\"blue\"\n\"feature\",\"3\",\"Undo / Redo\",\"\",\"\",\"\",\"Unity Undo workflow supported\",\"undo\",\"Google Material Symbols Rounded\",\"amber\"\n";
+function ms(name, cls=''){const d=ICON_PATHS[name]||ICON_PATHS.lightbulb;return `<svg class="ms ${cls}" viewBox="0 -960 960 960" aria-hidden="true"><path d="${d}"></path></svg>`}
+function parseCSV(text){const rows=[];let row=[],field='',q=false;for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(q){if(c==='"'&&n==='"'){field+='"';i++}else if(c==='"')q=false;else field+=c}else{if(c==='"')q=true;else if(c===','){row.push(field);field=''}else if(c==='\n'){row.push(field);rows.push(row);row=[];field=''}else if(c!=='\r')field+=c}}if(field.length||row.length){row.push(field);rows.push(row)}return rows}
+function objRows(csv){const a=parseCSV(csv);const h=a.shift();return a.filter(r=>r.some(Boolean)).map(r=>Object.fromEntries(h.map((k,i)=>[k,r[i]||''])))}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(data){
+ const maps=data.filter(x=>x.kind==='mapping').sort((a,b)=>+a.order-+b.order);
+ document.getElementById('leftRows').innerHTML=maps.map(m=>`<div class="light-row"><div class="iconbox">${ms(m.icon_name)}</div><div class="name"><strong>${esc(m.source_name.replace(' Light',''))}</strong><span class="component">${esc(m.source_component)}</span><small>${esc(m.detail)}</small></div></div>`).join('');
+ document.getElementById('rightRows').innerHTML=maps.map(m=>`<div class="light-row"><div class="iconbox">${ms(m.icon_name)}</div><div class="name"><strong>${esc(m.target_name.replace('Bakery ',''))}</strong><span class="component">${esc(m.target_component)}</span><small>${esc(m.detail)}</small></div></div>`).join('');
+ document.querySelectorAll('[data-arrow]').forEach(el=>el.innerHTML=ms('arrow_forward'));
+ const feats=data.filter(x=>x.kind==='feature').sort((a,b)=>+a.order-+b.order);
+ document.getElementById('features').innerHTML=feats.map(f=>`<div class="feature ${f.accent==='amber'?'amber':'blue'}"><div class="ficon">${ms(f.icon_name)}</div><div class="ftxt"><strong>${esc(f.source_name)}</strong><span>${esc(f.detail)}</span></div></div>`).join('');
+ document.getElementById('routeArrow').innerHTML=ms('arrow_forward');
+}
+(async()=>{let csv=EMBEDDED_CSV;if(location.protocol==='http:'||location.protocol==='https:'){try{const r=await fetch('BakeryLightConverter_thumbnail_v3.csv',{cache:'no-store'});if(r.ok)csv=await r.text()}catch(e){}}render(objRows(csv));document.documentElement.dataset.ready='1'})();
+</script>
+</body>
+</html>
