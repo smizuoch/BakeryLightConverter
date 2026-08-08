@@ -13,11 +13,11 @@ Unity Light から Bakery Light へ一括変換するUnityエディタツール�
 
 ### 1. 選択中のライトを変換
 1. Hierarchy または Scene View でライトオブジェクトを選択
-2. メニューから `Tools` → `Bakery` → `Convert Selected Lights` を選択
+2. メニューから `Tools` → `BakeryLightConverter` → `Convert Selected Lights` を選択
 3. または `Alt + Shift + B` のショートカットキーを使用
 
 ### 2. シーン内の全ライトを変換
-1. メニューから `Tools` → `Bakery` → `Convert All Lights` を選択
+1. メニューから `Tools` → `BakeryLightConverter` → `Convert All Lights` を選択
 
 ## 変換対応
 
@@ -52,7 +52,7 @@ Unity Light から Bakery Light へ一括変換するUnityエディタツール�
 
 ## 必要な環境
 
-- Unity 2019.4 以降
+- Unity 2022.3.22f1
 - Bakery GPU Lightmapper
 
 ## インストール

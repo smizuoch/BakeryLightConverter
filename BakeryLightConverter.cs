@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class BakeryLightConverter
 {
-    private const string MENU_ROOT = "Tools/Bakery/";
+    private const string MENU_ROOT = "Tools/BakeryLightConverter/";
     private const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
     static Texture2D spotCookie;
